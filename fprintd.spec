@@ -1,7 +1,7 @@
 %define long_hash  04fd09cfa88718838e02f4419befc1a0dd4b5a0e
 %define short_hash 04fd09cfa
 
-%define with_doc 0
+%define with_doc 1
 %{?_with_doc: %{expand: %%global with_doc 1}}
 
 Name:       fprintd
@@ -22,6 +22,7 @@ Patch1:     0001-Detect-when-a-device-is-disconnected.patch
 Patch2:     polkit1.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=543194
 Patch3:     0001-Remove-all-use-of-g_error.patch
+Patch4:     fprintd-0.1-fix-doc.patch
 Url:        http://www.reactivated.net/fprint/wiki/Fprintd
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -103,17 +104,23 @@ fingerprint readers access.
 %patch1 -p1
 %patch2 -p1 -b .polkit1
 %patch3 -p1 -b .g_error
+%patch4 -p0
 
 autoreconf -i -f
 
+%if %{with_doc}
+%__cp doc/fprintd-sections.txt doc/html-sections.txt
+%endif
+
 %build
+
 %configure \
 %if %{with_doc}
            --enable-gtk-doc \
 %endif
            --enable-pam --libdir=/%{_lib}/
 
-%make
+make
 
 %install
 rm -rf %{buildroot}
