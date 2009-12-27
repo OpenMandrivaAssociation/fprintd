@@ -25,7 +25,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:  dbus-glib-devel
 BuildRequires:  pam-devel
 BuildRequires:  libfprint-devel >= 0.1.0
-BuildRequires:  polkit-devel
+BuildRequires:  polkit-1-devel
 BuildRequires:  gtk-doc
 BuildRequires:  intltool
 BuildRequires:  autoconf 
@@ -49,7 +49,7 @@ D-Bus service to access fingerprint readers.
 
 #--------------------------------------------------------------------
 
-%package pam
+%package    pam
 Summary:    PAM module for fingerprint authentication
 Requires:   %{name} = %{version}-%{release}
 # Note that we obsolete pam_fprint, but as the configuration
