@@ -1,6 +1,9 @@
 %define long_hash  04fd09cfa88718838e02f4419befc1a0dd4b5a0e
 %define short_hash 04fd09cfa
 
+%define with_doc 0
+%{?_with_doc: %{expand: %%global with_doc 1}}
+
 Name:       fprintd
 Version:    0.1
 Release:    %mkrel 1.git%{short_hash}.1
@@ -26,7 +29,9 @@ BuildRequires:  dbus-glib-devel
 BuildRequires:  pam-devel
 BuildRequires:  libfprint-devel >= 0.1.0
 BuildRequires:  polkit-1-devel
+%if %{with_doc}
 BuildRequires:  gtk-doc
+%endif
 BuildRequires:  intltool
 BuildRequires:  autoconf 
 BuildRequires:  automake 
@@ -85,7 +90,9 @@ fingerprint readers access.
 
 %files devel
 %defattr(-,root,root,-)
+%if %{with_doc}
 %{_datadir}/gtk-doc/html/fprintd
+%endif
 %{_datadir}/dbus-1/interfaces/net.reactivated.Fprint.Device.xml
 %{_datadir}/dbus-1/interfaces/net.reactivated.Fprint.Manager.xml
 
@@ -100,16 +107,20 @@ fingerprint readers access.
 autoreconf -i -f
 
 %build
-%configure --enable-gtk-doc --enable-pam
+%configure \
+%if %{with_doc}
+           --enable-gtk-doc \
+%endif
+           --enable-pam --libdir=/%{_lib}/
 
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
-mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/lib/fprint
+mkdir -p %{buildroot}/%{_localstatedir}/lib/fprint
 
-rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_fprintd.{a,la,so.*}
+rm -f %{buildroot}/%{_lib}/security/pam_fprintd.{a,la,so.*}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
