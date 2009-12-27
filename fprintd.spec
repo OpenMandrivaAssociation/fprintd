@@ -6,7 +6,7 @@
 
 Name:       fprintd
 Version:    0.1
-Release:    %mkrel 1.git%{short_hash}.1
+Release:    %mkrel 1.git%{short_hash}.2
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
@@ -83,7 +83,6 @@ Requires:   %{name} = %{version}-%{release}
 Requires:   gtk-doc
 Group:      Development/Libraries
 License:    GFDLv1.1+
-BuildArch:  noarch
 
 %description devel
 Development documentation for fprintd, the D-Bus service for
