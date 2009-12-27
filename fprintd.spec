@@ -6,7 +6,7 @@
 
 Name:       fprintd
 Version:    0.1
-Release:    %mkrel 1.git%{short_hash}.2
+Release:    %mkrel 1.git%{short_hash}.3
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
@@ -63,7 +63,7 @@ Requires:   %{name} = %{version}-%{release}
 Provides:   pam_fprint = %{version}-%{release}
 Obsoletes:  pam_fprint < 0.2-3
 
-Group:      System Environment/Base
+Group:      System/Kernel and hardware
 License:    GPLv2+
 
 %description pam
@@ -81,7 +81,7 @@ authentication.
 Summary:    Development files for %{name}
 Requires:   %{name} = %{version}-%{release}
 Requires:   gtk-doc
-Group:      Development/Libraries
+Group:      Development/Other
 License:    GFDLv1.1+
 
 %description devel
