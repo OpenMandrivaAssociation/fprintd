@@ -6,7 +6,7 @@
 
 Name:       fprintd
 Version:    0.1
-Release:    %mkrel 1.git%{short_hash}.5
+Release:    %mkrel 1.git%{short_hash}.6
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
