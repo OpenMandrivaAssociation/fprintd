@@ -1,0 +1,13 @@
+Index: gtk-doc.make
+===================================================================
+--- gtk-doc.make
++++ gtk-doc.make	2009-12-27 02:38:29.000000000 +0100
+@@ -110,7 +110,7 @@
+ 	cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
+ 	test "x$(HTML_IMAGES)" = "x" || ( cd $(srcdir) && cp $(HTML_IMAGES) html )
+ 	@echo 'gtk-doc: Fixing cross-references'
+-	cd $(srcdir) && gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
++	cd $(srcdir) && gtkdoc-fixxref --module-dir=html --module=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+ 	touch html-build.stamp
+ 
+ ##############
