@@ -1,0 +1,13 @@
+Index: gtk-doc.make
+===================================================================
+--- gtk-doc.make
++++ gtk-doc.make	2009-12-27 02:38:29.000000000 +0100
+@@ -169,7 +169,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_
+ 	  fi; \
+ 	done;
+ 	@echo 'gtk-doc: Fixing cross-references'
+-	@gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
++	@gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --module=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+ 	@touch html-build.stamp
+ 
+ #### pdf ####
