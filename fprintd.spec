@@ -3,7 +3,7 @@
 
 Name:		fprintd
 Version:	0.4.1
-Release:	1
+Release:	2
 Summary:	D-Bus service for Fingerprint reader access
 
 Group:		System/Kernel and hardware
