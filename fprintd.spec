@@ -17,6 +17,7 @@ BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(libfprint) > 0.1.0
 BuildRequires:	pkgconfig(polkit-gobject-1) >= 0.91
+BuildRequires:  pkgconfig(udev)
 BuildRequires:  pam-devel
 BuildRequires:	gettext-devel
 %if %{with doc}
