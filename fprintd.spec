@@ -4,7 +4,7 @@
 Summary:	D-Bus service for Fingerprint reader access
 Name:		fprintd
 Version:	0.4.1
-Release:	2
+Release:	3
 Group:		System/Kernel and hardware
 License:	GPLv2+
 Url:		http://www.freedesktop.org/wiki/Software/fprint/fprintd
