@@ -18,6 +18,7 @@ BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(libfprint) > 0.1.0
 BuildRequires:	pkgconfig(polkit-gobject-1) >= 0.91
 BuildRequires:  pkgconfig(udev)
+BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pam-devel
 BuildRequires:	gettext-devel
 %if %{with doc}
@@ -96,7 +97,7 @@ autoreconf -i -f
 
 %build
 
-%configure2_5x --disable-static \
+%configure --disable-static \
 %if %{with doc}
            --enable-gtk-doc \
 %endif
