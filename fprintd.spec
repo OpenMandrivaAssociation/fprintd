@@ -1,14 +1,13 @@
 %bcond_without doc
 
 Name:       fprintd
-Version:    0.5.1
-Release:    11
+Version:    0.8.0
+Release:    1
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
 License:    GPLv2+
 Source0:    http://people.freedesktop.org/~hadess/fprintd-%{version}.tar.xz
-Patch0:     0001-data-Fix-syntax-error-in-fprintd.pod.patch
 Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
 
 BuildRequires:	pkgconfig(dbus-glib-1)
