@@ -1,13 +1,13 @@
 %bcond_without doc
 
 Name:       fprintd
-Version:    0.8.0
-Release:    1
+Version:	0.9.0
+Release:	1
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
 License:    GPLv2+
-Source0:    http://people.freedesktop.org/~hadess/fprintd-%{version}.tar.xz
+Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-%{version}.tar.xz
 Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
 
 BuildRequires:	pkgconfig(dbus-glib-1)
@@ -86,7 +86,7 @@ fingerprint readers access.
 
 %prep
 %setup -q -n %{name}-%{version}
-%apply_patches
+%autopatch -p1
 
 autoreconf -i -f
 
