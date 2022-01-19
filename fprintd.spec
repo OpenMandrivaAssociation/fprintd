@@ -25,6 +25,7 @@ BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 %endif
 BuildRequires: intltool
+BuildRequires: python3dist(dbus-python)
 BuildRequires: python3dist(pycairo)
 
 %description
