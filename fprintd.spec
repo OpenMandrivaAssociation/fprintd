@@ -25,6 +25,7 @@ BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 %endif
 BuildRequires: intltool
+BuildRequires: python3dist(pycairo)
 
 %description
 D-Bus service to access fingerprint readers.
