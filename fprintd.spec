@@ -1,4 +1,4 @@
-%bcond_without doc
+%bcond_with doc
 
 Name:       fprintd
 Version:	1.94.1
@@ -95,7 +95,7 @@ fingerprint readers access.
 
 %build
 
-%meson
+%meson -Dgtk_doc=false
 %meson_build
 
 %install
