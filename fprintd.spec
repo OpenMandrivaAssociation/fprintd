@@ -1,29 +1,29 @@
 %bcond_without doc
 
 Name:       fprintd
-Version:	0.9.0
+Version:	1.94.1
 Release:	1
 Summary:    D-Bus service for Fingerprint reader access
-
 Group:      System/Kernel and hardware
 License:    GPLv2+
-Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-%{version}.tar.xz
+Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/-/archive/v%{version}/fprintd-v%{version}.tar.bz2
 Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
 
-BuildRequires:	pkgconfig(dbus-glib-1)
-BuildRequires:	pkgconfig(gio-2.0) >= 2.26
-BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	pkgconfig(gmodule-2.0)
-BuildRequires:	pkgconfig(libfprint) > 0.1.0
-BuildRequires:	pkgconfig(polkit-gobject-1) >= 0.91
-BuildRequires:  pkgconfig(udev)
-BuildRequires:  pkgconfig(systemd)
-BuildRequires:  pam-devel
-BuildRequires:	gettext-devel
+BuildRequires: meson
+BuildRequires: pkgconfig(libfprint-2) >= 1.94.0
+BuildRequires: pkgconfig(dbus-glib-1)
+BuildRequires: pkgconfig(gio-2.0) >= 2.26
+BuildRequires: pkgconfig(glib-2.0)
+BuildRequires: pkgconfig(gmodule-2.0)
+BuildRequires: pkgconfig(polkit-gobject-1) >= 0.91
+BuildRequires: pkgconfig(udev)
+BuildRequires: pkgconfig(systemd)
+BuildRequires: pam-devel
+BuildRequires: gettext-devel
 %if %{with doc}
-BuildRequires:  gtk-doc
+BuildRequires: gtk-doc
 %endif
-BuildRequires:  intltool
+BuildRequires: intltool
 
 %description
 D-Bus service to access fingerprint readers.
@@ -85,28 +85,15 @@ fingerprint readers access.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-v%{version}
 %autopatch -p1
-
-autoreconf -i -f
-
-%if %{with doc}
-#%__cp doc/fprintd-sections.txt doc/html-sections.txt
-%endif
 
 %build
 
-%configure --disable-static \
-%if %{with doc}
-           --enable-gtk-doc \
-%endif
-           --enable-pam --libdir=/%{_lib}/
-
-make
+%meson
+%meson_build
 
 %install
-%makeinstall_std
-mkdir -p %{buildroot}/%{_localstatedir}/lib/fprint
+%meson_install
 
-rm -f %{buildroot}/%{_lib}/security/pam_fprintd.{a,la,so.*}
 %find_lang %name
