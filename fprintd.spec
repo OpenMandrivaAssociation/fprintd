@@ -18,6 +18,7 @@ BuildRequires: pkgconfig(gmodule-2.0)
 BuildRequires: pkgconfig(polkit-gobject-1) >= 0.91
 BuildRequires: pkgconfig(udev)
 BuildRequires: pkgconfig(systemd)
+BuildRequires: pkgconfig(pam_wrapper)
 BuildRequires: pam-devel
 BuildRequires: gettext-devel
 %if %{with doc}
