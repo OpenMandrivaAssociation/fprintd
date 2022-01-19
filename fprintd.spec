@@ -28,6 +28,7 @@ BuildRequires: intltool
 BuildRequires: python3dist(python-dbusmock)
 BuildRequires: python3dist(dbus-python)
 BuildRequires: python3dist(pycairo)
+BuildRequires: python-libpamtest
 
 %description
 D-Bus service to access fingerprint readers.
