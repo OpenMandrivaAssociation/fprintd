@@ -1,25 +1,29 @@
 %bcond_without doc
 
 Name:       fprintd
-Version:	0.9.0
+Version:	1.94.1
 Release:	1
 Summary:    D-Bus service for Fingerprint reader access
 
 Group:      System/Kernel and hardware
 License:    GPLv2+
-Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-%{version}.tar.xz
+Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-v%{version}.tar.gz
 Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
+Patch0:	    fix-build-and-translations.patch
 
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(gio-2.0) >= 2.26
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gmodule-2.0)
-BuildRequires:	pkgconfig(libfprint) > 0.1.0
+BuildRequires:	pkgconfig(libfprint-2) > 0.1.0
 BuildRequires:	pkgconfig(polkit-gobject-1) >= 0.91
 BuildRequires:  pkgconfig(udev)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pam-devel
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(pam_wrapper)
+BuildRequires:	python-dbusmock
+BuildRequires:	python-libpamtest
 %if %{with doc}
 BuildRequires:  gtk-doc
 %endif
@@ -34,9 +38,9 @@ D-Bus service to access fingerprint readers.
 %{_libexecdir}/fprintd
 # FIXME This file should be marked as config when it does something useful
 %{_sysconfdir}/fprintd.conf
-%{_sysconfdir}/dbus-1/system.d/net.reactivated.Fprint.conf
+%{_datadir}/dbus-1/system.d/net.reactivated.Fprint.conf
 %{_unitdir}/fprintd.service
-%{_datadir}/dbus-1/system-services/net.reactivated.Fprint.service
+%{_datadir}/dbus-1/services/net.reactivated.Fprint.service
 %{_datadir}/polkit-1/actions/net.reactivated.fprint.device.policy
 %{_localstatedir}/lib/fprint
 %_mandir/man1/fprintd.*
@@ -60,7 +64,8 @@ authentication.
 
 %files pam
 %doc pam/README
-/%{_lib}/security/pam_fprintd.so
+%{_mandir}/man8/pam_fprintd.8.*
+/%{_lib}/pam_fprintd.so
 
 #--------------------------------------------------------------------
 
@@ -85,27 +90,25 @@ fingerprint readers access.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}-%{version}
-%autopatch -p1
+%autosetup -p1 -n %{name}-v%{version}
 
-autoreconf -i -f
 
 %if %{with doc}
-#%__cp doc/fprintd-sections.txt doc/html-sections.txt
+#%%__cp doc/fprintd-sections.txt doc/html-sections.txt
 %endif
 
 %build
-
-%configure --disable-static \
+%meson 	-Ddbus_service_dir="%{_datadir}/dbus-1/services" \
 %if %{with doc}
-           --enable-gtk-doc \
+        -Dgtk_doc=true \
 %endif
-           --enable-pam --libdir=/%{_lib}/
+        -Dpam_modules_dir="/%{_lib}/"
 
-make
+%meson_build
+ 
 
 %install
-%makeinstall_std
+%meson_install
 mkdir -p %{buildroot}/%{_localstatedir}/lib/fprint
 
 rm -f %{buildroot}/%{_lib}/security/pam_fprintd.{a,la,so.*}

@@ -1,0 +1,5766 @@
+diff --git a/doc/dbus/meson.build b/doc/dbus/meson.build
+index 802938e..431127d 100644
+--- a/doc/dbus/meson.build
++++ b/doc/dbus/meson.build
+@@ -9,21 +9,20 @@ docbook_xml_header = custom_target('docbook_xml_header',
+ )
+ 
+ dbus_interfaces_refs = []
+-foreach interface_file: dbus_interfaces_files
+-    basename = run_command('basename', interface_file.full_path(), '.xml').stdout().strip()
++foreach interface_file: dbus_interfaces
++    basename = run_command('basename', interface_file, '.xml').stdout().strip()
+     dbus_interfaces_refs += custom_target(basename + '_ref',
+         input: docbook_xml_header,
+         output: basename + '.ref.xml',
+         build_by_default: true,
+-        depends: interface_file,
++        depend_files: interface_file,
+         capture: true,
+         command: [
+             bash, '-c',
+-            'cat @INPUT@;' +
+-            xsltproc.path() + ' @0@/@1@ '.format(
+-                meson.source_root(),
+-                files('spec-to-docbook.xsl')[0]) +
+-            interface_file.full_path() + '| tail -n +2;',
++            'cat "$1"; "$2" "$3" "$4" | tail -n +2',
++            '_', # argv0 ignored
++            '@INPUT@',
++            xsltproc, files('spec-to-docbook.xsl')[0], interface_file
+         ],
+     )
+ endforeach
+diff --git a/po/af.po b/po/af.po
+index 4a4883d..a282139 100644
+--- a/po/af.po
++++ b/po/af.po
+@@ -1,270 +1,283 @@
+ # SOME DESCRIPTIVE TITLE.
+ # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+ # This file is distributed under the same license as the PACKAGE package.
+-# 
++#
+ # Translators:
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2018-05-31 14:30+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2019-01-06 13:04+0000\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+-"Language-Team: Afrikaans (http://www.transifex.com/freedesktop/fprintd/language/af/)\n"
++"Language-Team: Afrikaans (http://www.transifex.com/freedesktop/fprintd/"
++"language/af/)\n"
++"Language: af\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"Language: af\n"
+ "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:1
++#: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:2
++#: data/net.reactivated.fprint.device.policy.in:14
+ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:3
+-msgid "Enroll new fingerprints"
++#: data/net.reactivated.fprint.device.policy.in:23
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:4
+-msgid "Privileges are required to enroll new fingerprints."
++#: data/net.reactivated.fprint.device.policy.in:24
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:5
+-msgid "Select a user to enroll"
++#: data/net.reactivated.fprint.device.policy.in:33
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:6
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#: data/net.reactivated.fprint.device.policy.in:34
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: ../src/device.c:385
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: ../src/device.c:395
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:31
++#: pam/fingerprint-strings.h:50
+ msgid "Place your finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:32
++#: pam/fingerprint-strings.h:51
+ #, c-format
+ msgid "Place your finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:33
++#: pam/fingerprint-strings.h:52
+ msgid "Swipe your finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:34
++#: pam/fingerprint-strings.h:53
+ #, c-format
+ msgid "Swipe your finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:36
++#: pam/fingerprint-strings.h:55
+ msgid "Place your left thumb on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:37
++#: pam/fingerprint-strings.h:56
+ #, c-format
+ msgid "Place your left thumb on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:38
++#: pam/fingerprint-strings.h:57
+ msgid "Swipe your left thumb across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:39
++#: pam/fingerprint-strings.h:58
+ #, c-format
+ msgid "Swipe your left thumb across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:41
++#: pam/fingerprint-strings.h:60
+ msgid "Place your left index finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:42
++#: pam/fingerprint-strings.h:61
+ #, c-format
+ msgid "Place your left index finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:43
++#: pam/fingerprint-strings.h:62
+ msgid "Swipe your left index finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:44
++#: pam/fingerprint-strings.h:63
+ #, c-format
+ msgid "Swipe your left index finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:46
++#: pam/fingerprint-strings.h:65
+ msgid "Place your left middle finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:47
++#: pam/fingerprint-strings.h:66
+ #, c-format
+ msgid "Place your left middle finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:48
++#: pam/fingerprint-strings.h:67
+ msgid "Swipe your left middle finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:49
++#: pam/fingerprint-strings.h:68
+ #, c-format
+ msgid "Swipe your left middle finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:51
++#: pam/fingerprint-strings.h:70
+ msgid "Place your left ring finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:52
++#: pam/fingerprint-strings.h:71
+ #, c-format
+ msgid "Place your left ring finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:53
++#: pam/fingerprint-strings.h:72
+ msgid "Swipe your left ring finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:54
++#: pam/fingerprint-strings.h:73
+ #, c-format
+ msgid "Swipe your left ring finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:56
++#: pam/fingerprint-strings.h:75
+ msgid "Place your left little finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:57
++#: pam/fingerprint-strings.h:76
+ #, c-format
+ msgid "Place your left little finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:58
++#: pam/fingerprint-strings.h:77
+ msgid "Swipe your left little finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:59
++#: pam/fingerprint-strings.h:78
+ #, c-format
+ msgid "Swipe your left little finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:61
++#: pam/fingerprint-strings.h:80
+ msgid "Place your right thumb on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:62
++#: pam/fingerprint-strings.h:81
+ #, c-format
+ msgid "Place your right thumb on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:63
++#: pam/fingerprint-strings.h:82
+ msgid "Swipe your right thumb across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:64
++#: pam/fingerprint-strings.h:83
+ #, c-format
+ msgid "Swipe your right thumb across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:66
++#: pam/fingerprint-strings.h:85
+ msgid "Place your right index finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:67
++#: pam/fingerprint-strings.h:86
+ #, c-format
+ msgid "Place your right index finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:68
++#: pam/fingerprint-strings.h:87
+ msgid "Swipe your right index finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:69
++#: pam/fingerprint-strings.h:88
+ #, c-format
+ msgid "Swipe your right index finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:71
++#: pam/fingerprint-strings.h:90
+ msgid "Place your right middle finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:72
++#: pam/fingerprint-strings.h:91
+ #, c-format
+ msgid "Place your right middle finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:73
++#: pam/fingerprint-strings.h:92
+ msgid "Swipe your right middle finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:74
++#: pam/fingerprint-strings.h:93
+ #, c-format
+ msgid "Swipe your right middle finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:76
++#: pam/fingerprint-strings.h:95
+ msgid "Place your right ring finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:77
++#: pam/fingerprint-strings.h:96
+ #, c-format
+ msgid "Place your right ring finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:78
++#: pam/fingerprint-strings.h:97
+ msgid "Swipe your right ring finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:79
++#: pam/fingerprint-strings.h:98
+ #, c-format
+ msgid "Swipe your right ring finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:81
++#: pam/fingerprint-strings.h:100
+ msgid "Place your right little finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:82
++#: pam/fingerprint-strings.h:101
+ #, c-format
+ msgid "Place your right little finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:83
++#: pam/fingerprint-strings.h:102
+ msgid "Swipe your right little finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:84
++#: pam/fingerprint-strings.h:103
+ #, c-format
+ msgid "Swipe your right little finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:131 ../pam/fingerprint-strings.h:157
++#: pam/fingerprint-strings.h:171 pam/fingerprint-strings.h:199
+ msgid "Place your finger on the reader again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:133 ../pam/fingerprint-strings.h:159
++#: pam/fingerprint-strings.h:173 pam/fingerprint-strings.h:201
+ msgid "Swipe your finger again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:136 ../pam/fingerprint-strings.h:162
++#: pam/fingerprint-strings.h:176 pam/fingerprint-strings.h:204
+ msgid "Swipe was too short, try again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:138 ../pam/fingerprint-strings.h:164
++#: pam/fingerprint-strings.h:178 pam/fingerprint-strings.h:206
+ msgid "Your finger was not centered, try swiping your finger again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:140 ../pam/fingerprint-strings.h:166
++#: pam/fingerprint-strings.h:180 pam/fingerprint-strings.h:208
+ msgid "Remove your finger, and try swiping your finger again"
+ msgstr ""
++
++#: pam/pam_fprintd.c:537
++msgid "Verification timed out"
++msgstr ""
++
++#: pam/pam_fprintd.c:542
++msgid "Failed to match fingerprint"
++msgstr ""
++
++#: pam/pam_fprintd.c:580
++msgid "An unknown error occurred"
++msgstr ""
+diff --git a/po/ar.po b/po/ar.po
+index 727e280..f7eafe5 100644
+--- a/po/ar.po
++++ b/po/ar.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2019-02-16 09:59+0000\n"
+ "Last-Translator: Ibrahim Saed <ibraheem5000@hotmail.com>\n"
+ "Language-Team: Arabic (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -29,27 +29,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "الصلاحيات مطلوبة لتأكيد البصمة."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "تسجيل بصمات جديدة"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "الصلاحيات مطلوبة لتسجيل بصمات جديدة."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "اختر مستخدما لتسجيل بصمته"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "الصلاحيات مطلوبة لتسجيل بصمات جديدة للمستخدمين الآخرين."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "لم يُحجز الجهاز قبل استخدامه"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "الجهاز يستخدمه مستخدم آخر الآن"
+@@ -276,11 +280,11 @@ msgstr "ارفع أصبعك، ثم حاول ثانيا"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "أكّد البصمة"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/as.po b/po/as.po
+index 7fafb28..8a3581a 100644
+--- a/po/as.po
++++ b/po/as.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Assamese (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ast.po b/po/ast.po
+index 0d0810d..490e312 100644
+--- a/po/ast.po
++++ b/po/ast.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-27 03:15+0000\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+ "Language-Team: Asturian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/az.po b/po/az.po
+index 8403555..64c74b7 100644
+--- a/po/az.po
++++ b/po/az.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Azerbaijani (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/be.po b/po/be.po
+index f047159..03256ba 100644
+--- a/po/be.po
++++ b/po/be.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2018-04-08 18:46+0000\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+ "Language-Team: Belarusian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,27 +29,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -276,10 +276,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/bg.po b/po/bg.po
+index ad5188b..f3d6bf1 100644
+--- a/po/bg.po
++++ b/po/bg.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-12-26 22:04+0000\n"
+ "Last-Translator: Tony Ivanov <duskull88@fastmail.fm>\n"
+ "Language-Team: Bulgarian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,29 +29,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Необходими са допълнителни привилегии, за проверка на отпечатъци."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Добавяне на нови отпечатъци"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Необходими са допълнителни привилегии, за да добавяте нови отпечатъци."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Изберете потребител за отпечатъците"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Необходими са допълнителни привилегии, за да добавяте нови отпечатъци за "
+ "други потребители."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Устройството не е било заявено преди употребата"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Устройството е заето от друг потребител"
+@@ -278,11 +282,11 @@ msgstr "Махнете пръста си и го прекарайте отнов
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Проверка на отпечатък"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/bn_IN.po b/po/bn_IN.po
+index 71bd423..b3f941c 100644
+--- a/po/bn_IN.po
++++ b/po/bn_IN.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Bengali (India) (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ca.po b/po/ca.po
+index 1aeaf24..ee8c621 100644
+--- a/po/ca.po
++++ b/po/ca.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-08-15 14:02+0200\n"
+ "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
+ "Language-Team: Catalan (http://www.transifex.com/freedesktop/fprintd/"
+@@ -30,28 +30,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Es requereixen privilegis per verificar empremtes."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Inscriu empremtes noves"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Es requereixen privilegis per inscriure empremtes noves."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selecciona un usuari per inscriure"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Es requereixen privilegis per inscriure noves empremtes per a altres usuaris."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "El dispositiu no estava preparat"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "El dispositiu ja l'està fent servir un altre usuari"
+@@ -278,10 +282,10 @@ msgstr "Retireu el dit i intenteu passar el dit de nou"
+ msgid "Verification timed out"
+ msgstr "S'ha esgotat el temps d'espera de la verificació"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "L'empremta no coincideix"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Hi ha hagut un error desconegut"
+diff --git a/po/ca@valencia.po b/po/ca@valencia.po
+index 804d397..caf24a9 100644
+--- a/po/ca@valencia.po
++++ b/po/ca@valencia.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Catalan (Valencian) (http://www.transifex.com/freedesktop/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/cs.po b/po/cs.po
+index 1ded25a..0ea6dfb 100644
+--- a/po/cs.po
++++ b/po/cs.po
+@@ -9,8 +9,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-09-04 23:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
+ "Language-Team: Czech <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/cs/>\n"
+@@ -20,7 +20,7 @@ msgstr ""
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+ "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+-"X-Generator: Weblate 4.8\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -31,28 +31,29 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "K ověření otisků prstů jsou zapotřebí oprávnění."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Registrovat nové otisky prstů"
++msgid "Enroll or Delete fingerprints"
++msgstr "Registrovat nebo smazat nové otisky prstů"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "K registraci nových otisků prstů jsou zapotřebí oprávnění."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr ""
++"K registraci nových nebo mazání stávajících otisků prstů jsou zapotřebí "
++"oprávnění."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Zvolte uživatele k registraci"
++msgid "Select a user to manage fingerprints for"
++msgstr "Zvolte uživatele, u kterého spravovat otisky"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr ""
+-"K registraci nových otisků prstů pro jiné uživatele jsou zapotřebí oprávnění."
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "Pro správu otisků prstů ostatních uživatelů jsou zapotřebí oprávnění."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Zařízení nebylo před použitím získáno"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Zařízení je již používáno jiným uživatelem"
+@@ -279,10 +280,10 @@ msgstr "Sejměte prst a zkuste s ním přejet znovu"
+ msgid "Verification timed out"
+ msgstr "Překročen časový limit pro ověření"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Nepodařilo se najít shodu s otiskem"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Došlo k neznámé chybě"
+diff --git a/po/cy.po b/po/cy.po
+index e017678..a8bf113 100644
+--- a/po/cy.po
++++ b/po/cy.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Welsh (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -28,27 +28,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -275,10 +275,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/da.po b/po/da.po
+index 84abc14..2dd8cc9 100644
+--- a/po/da.po
++++ b/po/da.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 21:51+0000\n"
+ "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+ "Language-Team: Danish (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -28,28 +28,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Privilegier er krævet for at verificere fingeraftryk."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Tilmeld nye fingeraftryk"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Privilegier er krævet for at tilmelde nye fingeraftryk."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Vælg en bruger at tilmelde"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Privilegier er krævet for at tilmelde nye fingeraftryk for andre brugere."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Enhed var ikke hævdet før brug"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Enhed allerede i brug af anden bruger"
+@@ -276,11 +280,11 @@ msgstr "Fjern din finger, og prøv at rul din finger igen"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verificer et fingeraftryk"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/de.po b/po/de.po
+index 9de2421..9546360 100644
+--- a/po/de.po
++++ b/po/de.po
+@@ -8,8 +8,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-08-22 13:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-06 12:16+0000\n"
+ "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+ "Language-Team: German <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/de/>\n"
+@@ -18,7 +18,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Weblate 4.8\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -30,30 +30,31 @@ msgstr ""
+ "Systemverwalterrechte sind zum Überprüfen neuer Fingerabdrücke erforderlich."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Neue Fingerabdrücke eintragen"
++msgid "Enroll or Delete fingerprints"
++msgstr "Fingerabdrücke eintragen oder löschen"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+-"Systemverwalterrechte sind zum Eintragen neuer Fingerabdrücke erforderlich."
++"Zum Eintragen oder Löschen von Fingerabdrücken sind Berechtigungen "
++"erforderlich."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Wählen Sie einen Benutzer zum Eintragen aus"
++msgid "Select a user to manage fingerprints for"
++msgstr "Wählen Sie einen Benutzer zur Verwaltung der Fingerabdrücke für"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"Systemverwalterrechte sind zum Eintragen neuer Fingerabdrücke für andere "
+-"Benutzer erforderlich."
++"Zur Verwaltung von Fingerabdrücken für andere Benutzer sind Berechtigungen "
++"erforderlich."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Nutzung des Gerätes wurde vorher nicht angefragt"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Gerät wird bereits von einem anderen Benutzer verwendet"
+@@ -284,10 +285,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr "Zeitüberschreitung bei der Verifizierung"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Fehler beim Abgleich des Fingerabdrucks"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Ein unbekannter Fehler ist aufgetreten"
+diff --git a/po/el.po b/po/el.po
+index d7bc07f..ffcd2c2 100644
+--- a/po/el.po
++++ b/po/el.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:46+0000\n"
+ "Last-Translator: thanos <tomtryf@gmail.com>\n"
+ "Language-Team: Greek (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -29,30 +29,34 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Απαιτούνται προνόμια για την επαλήθευση των δακτυλικών αποτυπωμάτων."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Καταγραφή νέων δακτυλικών αποτυπωμάτων"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ "Απαιτούνται προνόμια για τη καταγραφή καινούργιων δακτυλικών αποτυπωμάτων."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Επιλέξτε ένα χρήστη για να κάνετε καταγραφή αποτυπωμάτων"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Απαιτούνται προνόμια για την καταγραφή νέων δακτυλικών αποτυπωμάτων για "
+ "άλλους χρήστες."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Η συσκευή δεν ζητήθηκε πριν από τη χρήση"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Η συσκευή χρησιμοποιείται ήδη από έναν άλλο χρήστη"
+@@ -306,11 +310,11 @@ msgstr "Απομακρύνετε το δάκτυλο σας και προσπα
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Επιβεβαιώστε ένα δακτυλικό αποτύπωμα"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/en_GB.po b/po/en_GB.po
+index 5361d58..cabc34e 100644
+--- a/po/en_GB.po
++++ b/po/en_GB.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-04-04 15:51+0000\n"
+ "Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
+ "Language-Team: English (United Kingdom) (http://www.transifex.com/"
+@@ -28,27 +28,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Privileges are required to verify fingerprints."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Enroll new fingerprints"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Privileges are required to enroll new fingerprints."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Select a user to enroll"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "Privileges are required to enroll new fingerprints for other users."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Device was not claimed before use"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Device already in use by another user"
+@@ -275,11 +279,11 @@ msgstr "Remove your finger, and try swiping your finger again"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verify a fingerprint"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/eo.po b/po/eo.po
+index b67b496..c30f2b6 100644
+--- a/po/eo.po
++++ b/po/eo.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 10:24+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Esperanto (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,29 +28,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Sistemprivilegioj estas bezonate por kontroli fingrospurojn."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Registri novajn fingrospurojn"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Sistemprivilegioj estas bezonate por registri novajn fingrospurojn."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Elektu uzanton or registri"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Sistemprivilegioj estas bezonate por registri novajn fingrospurojn por aliaj "
+ "uzantoj."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Ne pretendis la aparaton antaŭ uzo"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "La aparato jam estas uzate de alia uzanto"
+@@ -277,11 +281,11 @@ msgstr "Forigu vian fingron, kaj provu turneti vian fingron denove"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Kontroli fingrospuron"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/es.po b/po/es.po
+index 5957f93..29d3b60 100644
+--- a/po/es.po
++++ b/po/es.po
+@@ -11,7 +11,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-09-30 15:05+0000\n"
+ "Last-Translator: Emilio Herrera <ehespinosa57@gmail.com>\n"
+ "Language-Team: Spanish <https://translate.fedoraproject.org/projects/fprintd/"
+@@ -32,28 +32,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Se necesitan privilegios para comprobar huellas."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Registrar huellas nuevas"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Se requieren privilegios para registrar huellas nuevas."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Seleccionar un usuario para registrar"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Se requieren privilegios para registrar huellas nuevas para otros usuarios."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "No se llamó al dispositivo antes de usarlo"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Otro usuario ya está utilizando el dispositivo"
+@@ -280,10 +284,10 @@ msgstr "Quite su dedo e intente deslizarlo de nuevo"
+ msgid "Verification timed out"
+ msgstr "Se ha agotado el tiempo de la verificación"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "La huella no coincide"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Ocurrió un error desconocido"
+diff --git a/po/et.po b/po/et.po
+index 6e738f4..25d5831 100644
+--- a/po/et.po
++++ b/po/et.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Estonian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/eu.po b/po/eu.po
+index 490602a..9508f77 100644
+--- a/po/eu.po
++++ b/po/eu.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Basque (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/fa.po b/po/fa.po
+index 328a48a..6d0e273 100644
+--- a/po/fa.po
++++ b/po/fa.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Persian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/fi.po b/po/fi.po
+index f431144..e50e787 100644
+--- a/po/fi.po
++++ b/po/fi.po
+@@ -11,8 +11,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-23 12:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: Jan Kuparinen <copper_fin@hotmail.com>\n"
+ "Language-Team: Finnish <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/fi/>\n"
+@@ -21,7 +21,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Weblate 4.7.2\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -32,28 +32,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Sormenjälkien tarkistamiseen tarvitaan oikeudet."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Rekisteröi uusia sormenjälkiä"
++msgid "Enroll or Delete fingerprints"
++msgstr "Rekisteröi tai poista sormenjälkiä"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Uusien sormenjälkien rekisteröintiin tarvitaan oikeudet."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "Sormenjälkien rekisteröintiin tai poistoon tarvitaan oikeudet."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Valitse käyttäjä, johon haluat kirjata"
++msgid "Select a user to manage fingerprints for"
++msgstr "Valitse käyttäjä, jonka sormenjälkiä hallinnoidaan"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr ""
+-"Uusien sormenjälkien rekisteröiminen muille käyttäjille edellyttää oikeuksia."
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "Muiden käyttäjien sormenjälkien hallinta edellyttää käyttöoikeuksia."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Laitetta ei noudettu ennen käyttöä"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Laite on jo toisen käyttäjän käytössä"
+@@ -281,10 +280,10 @@ msgstr "Poista sormi ja yritä pyyhkäistä uudelleen"
+ msgid "Verification timed out"
+ msgstr "Vahvistus aikakatkaistiin"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Sormenjäljen vahvistaminen epäonnistui"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Tapahtui tuntematon virhe"
+diff --git a/po/fo.po b/po/fo.po
+index 327b05a..1c1e88f 100644
+--- a/po/fo.po
++++ b/po/fo.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:08+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Faroese (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,28 +28,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Serrættindi eru krøvd til at vátta fingramerki"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Skráset nýggj fingramerki"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Serrættindi eru krøvd til at skráseta nýggj gingramerki."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Vel ein brúkara at skráseta"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Serrættindi eru krøvd, til at skráseta nýggj fingramerki fyri arðar brúkarar."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Tóleind varð ikki kravd áðrenn nýtslu"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Tóleind er longu í brúka, av einum ørðum brúkara"
+@@ -276,11 +280,11 @@ msgstr "Flyt fingurin, og royn aftur at draga hann"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Vátta eitt fingramerki"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/fprintd.pot b/po/fprintd.pot
+index 9638db1..ee3af40 100644
+--- a/po/fprintd.pot
++++ b/po/fprintd.pot
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: LANGUAGE <LL@li.org>\n"
+@@ -26,27 +26,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -273,10 +273,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/fr.po b/po/fr.po
+index 5a6f164..236a353 100644
+--- a/po/fr.po
++++ b/po/fr.po
+@@ -5,13 +5,14 @@
+ # Translators:
+ # Claude Paroz <claude@2xlibre.net>, 2012, 2021.
+ # Claude Paroz <claude@2xlibre.net>, 2011, 2021.
++# Thibault HEINRICH <thibault@lexikal-seo.net>, 2021.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-25 12:04+0000\n"
+-"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
++"Last-Translator: Thibault HEINRICH <thibault@lexikal-seo.net>\n"
+ "Language-Team: French <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/fr/>\n"
+ "Language: fr\n"
+@@ -19,7 +20,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n > 1;\n"
+-"X-Generator: Weblate 4.7.2\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -31,31 +32,31 @@ msgstr ""
+ "Des permissions sont nécessaires pour contrôler des empreintes digitales."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Introduire de nouvelles empreintes"
++msgid "Enroll or Delete fingerprints"
++msgstr "Introduire ou supprimer des empreintes"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+-"Des permissions sont nécessaires pour introduire de nouvelles empreintes "
++"Des permissions sont nécessaires pour introduire ou supprimer des empreintes "
+ "digitales."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Choisir un utilisateur pour l’introduction"
++msgid "Select a user to manage fingerprints for"
++msgstr "Choisir un utilisateur pour l’administration des empreintes"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"Des permissions sont nécessaires pour introduire de nouvelles empreintes "
+-"digitales pour d’autres utilisateurs."
++"Des permissions sont nécessaires pour administrer des empreintes digitales "
++"pour le compte d’autres utilisateurs."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Le périphérique n’a pas été réservé avant utilisation"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Le périphérique est déjà utilisé par un autre utilisateur"
+@@ -272,7 +273,8 @@ msgstr "Le glissement était trop bref, essayez une nouvelle fois"
+ 
+ #: pam/fingerprint-strings.h:178 pam/fingerprint-strings.h:206
+ msgid "Your finger was not centered, try swiping your finger again"
+-msgstr "Votre doigt n’était pas centré, essayez de le glisser une nouvelle fois"
++msgstr ""
++"Votre doigt n’était pas centré, essayez de le glisser une nouvelle fois"
+ 
+ #: pam/fingerprint-strings.h:180 pam/fingerprint-strings.h:208
+ msgid "Remove your finger, and try swiping your finger again"
+@@ -283,10 +285,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr "Le délai de vérification a expiré"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Échec de reconnaissance de l’empreinte digitale"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+-msgstr "Une erreur inconnue est survenue"
++msgstr "Une erreur inconnue s'est produite"
+diff --git a/po/fur.po b/po/fur.po
+index 7a64e17..a11f328 100644
+--- a/po/fur.po
++++ b/po/fur.po
+@@ -3,61 +3,66 @@
+ # This file is distributed under the same license as the PACKAGE package.
+ #
+ # Translators:
+-# Fabio Tomat <f.t.public@gmail.com>, 2017
++# Fabio Tomat <f.t.public@gmail.com>, 2017, 2021.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2017-11-30 14:32+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-11-07 16:18+0000\n"
+ "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+-"Language-Team: Friulian (http://www.transifex.com/freedesktop/fprintd/"
+-"language/fur/)\n"
++"Language-Team: Friulian <https://translate.fedoraproject.org/projects/"
++"fprintd/fprintd/fur/>\n"
+ "Language: fur\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Weblate 4.8\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+-msgstr "Verifiche une impronte digjitâl"
++msgstr "Verifiche un impront digjitâl"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:14
+ msgid "Privileges are required to verify fingerprints."
+-msgstr "I privileçs a son necessaris par verificâ lis improntis digjitâls."
++msgstr "A son necessaris i privileçs par verificâ impronts digjitâi."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Regjistre gnovis improntis digjitâls"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
++msgstr "Regjistre gnûfs impronts digjitâi"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "I privileçs a son necessaris par regjistrâ gnovis improntis digjitâls."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "I privileçs a son necessaris par regjistrâ gnûfs impronts digjitâi."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selezione un utent di regjistrâ"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"I privileçs a son necessaris par regjistrâ gnovis improntis digjitâls par "
++"I privileçs a son necessaris par regjistrâ gnûfs impronts digjitâi par "
+ "altris utents."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Il dispositîf nol è stât rivendicât prime jessi doprât"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Il dispositîf al è za doprât di un altri utent"
+ 
+ #: pam/fingerprint-strings.h:50
+ msgid "Place your finger on the fingerprint reader"
+-msgstr "Met il to dêt sul letôr di improntis digjitâls"
++msgstr "Met il to dêt sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:51
+ #, c-format
+@@ -66,7 +71,7 @@ msgstr "Met il to dêt su %s"
+ 
+ #: pam/fingerprint-strings.h:52
+ msgid "Swipe your finger across the fingerprint reader"
+-msgstr "Fâs cori il to dêt sul letôr di improntis digjitâls"
++msgstr "Fâs cori il to dêt sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:53
+ #, c-format
+@@ -75,7 +80,7 @@ msgstr "Fâs cori il to dêt su %s"
+ 
+ #: pam/fingerprint-strings.h:55
+ msgid "Place your left thumb on the fingerprint reader"
+-msgstr "Met il poleâr de man çampe sul letôr di improntis digjitâls"
++msgstr "Met il poleâr de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:56
+ #, c-format
+@@ -84,7 +89,7 @@ msgstr "Met il poleâr de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:57
+ msgid "Swipe your left thumb across the fingerprint reader"
+-msgstr "Fâs cori il poleâr de man çampe sul letôr di improntis digjitâls"
++msgstr "Fâs cori il poleâr de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:58
+ #, c-format
+@@ -93,7 +98,7 @@ msgstr "Fâs cori il poleâr de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:60
+ msgid "Place your left index finger on the fingerprint reader"
+-msgstr "Met l'indiç de man çampe sul letôr di improntis digjitâls"
++msgstr "Met l'indiç de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:61
+ #, c-format
+@@ -102,7 +107,7 @@ msgstr "Met l'indiç de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:62
+ msgid "Swipe your left index finger across the fingerprint reader"
+-msgstr "Fâs cori l'indiç de man çampe sul letôr di improntis digjitâls"
++msgstr "Fâs cori l'indiç de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:63
+ #, c-format
+@@ -111,7 +116,7 @@ msgstr "Fâs cori l'indiç de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:65
+ msgid "Place your left middle finger on the fingerprint reader"
+-msgstr "Met il dêt di mieç de man çampe sul letôr di improntis digjitâls"
++msgstr "Met il dêt di mieç de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:66
+ #, c-format
+@@ -120,7 +125,7 @@ msgstr "Met il dêt di mieç de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:67
+ msgid "Swipe your left middle finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt di mieç de man çampe sul letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt di mieç de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:68
+ #, c-format
+@@ -129,7 +134,7 @@ msgstr "Fâs cori il dêt di mieç de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:70
+ msgid "Place your left ring finger on the fingerprint reader"
+-msgstr "Met il dêt dal anel de man çampe sul letôr di improntis digjitâls"
++msgstr "Met il dêt dal anel de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:71
+ #, c-format
+@@ -138,7 +143,7 @@ msgstr "Met il dêt dal anel de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:72
+ msgid "Swipe your left ring finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt dal anel de man çampe sul letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt dal anel de man çampe sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:73
+ #, c-format
+@@ -147,7 +152,7 @@ msgstr "Fâs cori il dêt dal anel de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:75
+ msgid "Place your left little finger on the fingerprint reader"
+-msgstr "Met il dêt piçul de man çampe su letôr di improntis digjitâls"
++msgstr "Met il dêt piçul de man çampe su letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:76
+ #, c-format
+@@ -156,7 +161,7 @@ msgstr "Met il dêt piçul de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:77
+ msgid "Swipe your left little finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt piçul de man çampe su letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt piçul de man çampe su letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:78
+ #, c-format
+@@ -165,7 +170,7 @@ msgstr "Fâs cori il dêt piçul de man çampe su %s"
+ 
+ #: pam/fingerprint-strings.h:80
+ msgid "Place your right thumb on the fingerprint reader"
+-msgstr "Met il poleâr de man drete sul letôr di improntis digjitâls"
++msgstr "Met il poleâr de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:81
+ #, c-format
+@@ -174,7 +179,7 @@ msgstr "Met il poleâr de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:82
+ msgid "Swipe your right thumb across the fingerprint reader"
+-msgstr "Fâs cori il poleâr de man drete sul letôr di improntis digjitâls"
++msgstr "Fâs cori il poleâr de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:83
+ #, c-format
+@@ -183,7 +188,7 @@ msgstr "Fâs cori il poleâr de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:85
+ msgid "Place your right index finger on the fingerprint reader"
+-msgstr "Met l'indiç de man drete sul letôr di improntis digjitâls"
++msgstr "Met l'indiç de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:86
+ #, c-format
+@@ -192,7 +197,7 @@ msgstr "Met l'indiç de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:87
+ msgid "Swipe your right index finger across the fingerprint reader"
+-msgstr "Fâs cori l'indiç de man drete sul letôr di improntis digjitâls"
++msgstr "Fâs cori l'indiç de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:88
+ #, c-format
+@@ -201,7 +206,7 @@ msgstr "Fâs cori l'indiç de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:90
+ msgid "Place your right middle finger on the fingerprint reader"
+-msgstr "Met il dêt di mieç de man drete sul letôr di improntis digjitâls"
++msgstr "Met il dêt di mieç de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:91
+ #, c-format
+@@ -210,7 +215,7 @@ msgstr "Met il dêt di mieç de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:92
+ msgid "Swipe your right middle finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt di mieç de man drete sul letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt di mieç de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:93
+ #, c-format
+@@ -219,7 +224,7 @@ msgstr "Fâs cori il dêt di mieç de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:95
+ msgid "Place your right ring finger on the fingerprint reader"
+-msgstr "Met il dêt dal anel de man drete sul letôr di improntis digjitâls"
++msgstr "Met il dêt dal anel de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:96
+ #, c-format
+@@ -228,7 +233,7 @@ msgstr "Met il dêt dal anel de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:97
+ msgid "Swipe your right ring finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt dal anel de man drete sul letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt dal anel de man drete sul letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:98
+ #, c-format
+@@ -237,7 +242,7 @@ msgstr "Fâs cori il dêt dal anel de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:100
+ msgid "Place your right little finger on the fingerprint reader"
+-msgstr "Met il dêt piçul de man drete su letôr di improntis digjitâls"
++msgstr "Met il dêt piçul de man drete su letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:101
+ #, c-format
+@@ -246,7 +251,7 @@ msgstr "Met il dêt piçul de man drete su %s"
+ 
+ #: pam/fingerprint-strings.h:102
+ msgid "Swipe your right little finger across the fingerprint reader"
+-msgstr "Fâs cori il dêt piçul de man drete su letôr di improntis digjitâls"
++msgstr "Fâs cori il dêt piçul de man drete su letôr di impronts digjitâi"
+ 
+ #: pam/fingerprint-strings.h:103
+ #, c-format
+@@ -275,13 +280,12 @@ msgstr "Gjave il dêt e prove a tornâ a fâ cori il dêt di gnûf"
+ 
+ #: pam/pam_fprintd.c:537
+ msgid "Verification timed out"
+-msgstr ""
++msgstr "Verifiche scjadude"
+ 
+-#: pam/pam_fprintd.c:560
+-#, fuzzy
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+-msgstr "Verifiche une impronte digjitâl"
++msgstr "Nol è stât pussibil imbinâ l'impront digjitâl"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+-msgstr ""
++msgstr "Al è vignût fûr un erôr no cognossût"
+diff --git a/po/ga.po b/po/ga.po
+index eff464e..246ec7f 100644
+--- a/po/ga.po
++++ b/po/ga.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Irish (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -28,27 +28,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -275,10 +275,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/gl.po b/po/gl.po
+index 8b83f7a..d020711 100644
+--- a/po/gl.po
++++ b/po/gl.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-23 18:02+0000\n"
+ "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
+ "Language-Team: Galician (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,29 +28,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Requírense privilexios para verificar pegadas dixitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Rexistrar novas pegadas dixitais"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Requírense privilexios para rexistrar novas pegadas dixitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Seleccione o usuario a rexistrar"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Requírense privilexios para rexistrar novas pegadas dixitais para outros "
+ "usuarios."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "O dispositivo non foi solicitado antes do seu uso"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "O dispositivo está sendo usado por outro usuario"
+@@ -277,11 +281,11 @@ msgstr "Retire o seu dedo e tente deslizalo de novo"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verificar a pegada dixital"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/gu.po b/po/gu.po
+index 1a1beca..6d6f590 100644
+--- a/po/gu.po
++++ b/po/gu.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Gujarati (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/he.po b/po/he.po
+index 74adc8d..4deff10 100644
+--- a/po/he.po
++++ b/po/he.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Hebrew (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -28,27 +28,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -275,10 +275,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/hi.po b/po/hi.po
+index a8960ba..e488930 100644
+--- a/po/hi.po
++++ b/po/hi.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Hindi (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/hr.po b/po/hr.po
+index 9dd76d9..0d4185e 100644
+--- a/po/hr.po
++++ b/po/hr.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-10-03 15:05+0000\n"
+ "Last-Translator: Gogo Gogsi <linux.hr@protonmail.com>\n"
+ "Language-Team: Croatian <https://translate.fedoraproject.org/projects/"
+@@ -31,28 +31,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Potrebne su ovlasti za provjeru otisaka prstiju."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Unesi nove otiske prstiju"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Potrebne su ovlasti za unošenje novih otisaka prstiju."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Odaberite korisnika za unos"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Potrebne su ovlasti za unošenje novih otisaka prstiju za druge korisnike."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Uređaj nije zauzet prije korištenja"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Uređaj već koristi drugi korisnik"
+@@ -279,10 +283,10 @@ msgstr "Maknite prst i pokušajte ga povući ponovo"
+ msgid "Verification timed out"
+ msgstr "Provjera je istekla"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Neuspjelo podudaranje otiska prstiju"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Dogodila se nepoznata greška"
+diff --git a/po/hu.po b/po/hu.po
+index e62cd60..80e3545 100644
+--- a/po/hu.po
++++ b/po/hu.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:08+0000\n"
+ "Last-Translator: kelemeng <kelemeng@ubuntu.com>\n"
+ "Language-Team: Hungarian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,28 +28,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Jogosultság szükséges az ujjlenyomatok ellenőrzéséhez."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Új ujjlenyomatok felvétele"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Jogosultság szükséges új ujjlenyomatok felvételéhez."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Válassza ki a felveendő felhasználót"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Jogosultság szükséges új ujjlenyomatok felvételéhez más felhasználóknak."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Az eszközt használat előtt nem foglalták le"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Az eszközt már másik felhasználó használja"
+@@ -276,11 +280,11 @@ msgstr "Vegye el az ujját és próbálja újra lehúzni"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Ujjlenyomat ellenőrzése"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ia.po b/po/ia.po
+index e2b2896..cbfaf5f 100644
+--- a/po/ia.po
++++ b/po/ia.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 14:10+0000\n"
+ "Last-Translator: Martijn Dekker <mcdutchie@hotmail.com>\n"
+ "Language-Team: Interlingua (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,29 +29,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Privilegios es necesse pro verificar impressiones digital."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Registrar nove impressiones digital"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Privilegios es necesse pro registrar nove impressiones digital."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selige un usator a registrar"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Privilegios es necesse pro registrar nove impressiones digital pro altere "
+ "usatores."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Le dispositivo non era reservate ante le uso"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Le dispositivo es in uso per altere usator"
+@@ -278,11 +282,11 @@ msgstr "Remove le digito e tenta de passar lo de novo"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verificar un impression digital"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/id.po b/po/id.po
+index e24a970..93fcc5d 100644
+--- a/po/id.po
++++ b/po/id.po
+@@ -8,8 +8,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-08-17 02:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+ "Language-Team: Indonesian <https://translate.fedoraproject.org/projects/"
+ "fprintd/fprintd/id/>\n"
+@@ -18,7 +18,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+-"X-Generator: Weblate 4.7.2\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -29,28 +29,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Diperlukan hak khusus untuk memeriksa kebenaran sidik jari."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Mendaftar sidik jari baru"
++msgid "Enroll or Delete fingerprints"
++msgstr "Mendaftar atau menghapus sidik jari"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Diperlukan hak khusus untuk mendaftarkan sidik jari baru."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "Diperlukan hak khusus untuk mendaftarkan atau menghapus sidik jari."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Pilih pengguna untuk didaftar"
++msgid "Select a user to manage fingerprints for"
++msgstr "Pilih pengguna yang akan dikelola sidik jarinya"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr ""
+-"Diperlukan hak khusus untuk mendaftarkan sidik jari baru bagi pengguna lain."
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "Diperlukan hak khusus untuk mengelola sidik jari bagi pengguna lain."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Perangkat tak diklaim sebelum dipakai"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Perangkat telah sedang dipakai oleh pengguna lain"
+@@ -277,10 +276,10 @@ msgstr "Angkat jari Anda, lalu coba gesekkan lagi"
+ msgid "Verification timed out"
+ msgstr "Verifikasi habis waktu"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Gagal mencocokkan sidik jari"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Terjadi kesalahan yang tidak dikenal"
+diff --git a/po/it.po b/po/it.po
+index eacdefb..c5b8dab 100644
+--- a/po/it.po
++++ b/po/it.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-08-21 12:08+0200\n"
+ "Last-Translator:  Albano Battistella <albano_battistella@hotmail.com>\n"
+ "Language-Team: Italian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,28 +29,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Sono richiesti dei privilegi per verificare le impronte."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Registra nuove impronte"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Sono richiesti dei privilegi per registrare nuove impronte."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Seleziona un utente da registrare"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Sono richiesti dei privilegi per registrare nuove impronte per altri utenti."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Il device non è stato richiesto prima dell'uso"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Un altro utente sta già usando il device"
+@@ -277,10 +281,10 @@ msgstr "Rimuovere il dito e ripetere un altro passaggio"
+ msgid "Verification timed out"
+ msgstr "Verifica terminata"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Impossibile abbinare l'impronta digitale"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Si è verificato un errore sconosciuto"
+diff --git a/po/ja.po b/po/ja.po
+index f5e68da..5aaf457 100644
+--- a/po/ja.po
++++ b/po/ja.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-09-09 03:04+0000\n"
+ "Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>\n"
+ "Language-Team: Japanese <https://translate.fedoraproject.org/projects/"
+@@ -30,27 +30,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "指紋を検証するには特権が必要になります。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "新しい指紋の登録"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "新しい指紋を登録するには特権が必要になります。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "登録するユーザーの選択"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "他のユーザーに対する新しい指紋を登録するには特権が必要になります。"
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "装置が使用前に要求されませんでした"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "装置がすでに他のユーザーにより使用されています"
+@@ -277,10 +281,10 @@ msgstr "指をどかして、もう一度指をなぞってみてください"
+ msgid "Verification timed out"
+ msgstr "検証がタイムアウトしました"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "指紋の検証に失敗しました"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "不明なエラーが発生しました"
+diff --git a/po/ka.po b/po/ka.po
+index ca8353e..c04f9b2 100644
+--- a/po/ka.po
++++ b/po/ka.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Georgian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/kk.po b/po/kk.po
+index 66ccae6..e333704 100644
+--- a/po/kk.po
++++ b/po/kk.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Kazakh (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/kn.po b/po/kn.po
+index 558bc02..7c3d914 100644
+--- a/po/kn.po
++++ b/po/kn.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Kannada (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ko.po b/po/ko.po
+index 9d6b3d0..554f7e2 100644
+--- a/po/ko.po
++++ b/po/ko.po
+@@ -14,8 +14,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-16 20:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: simmon <simmon@nplob.com>\n"
+ "Language-Team: Korean <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/ko/>\n"
+@@ -24,7 +24,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+-"X-Generator: Weblate 4.7.1\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -35,27 +35,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "지문을 검증하려면 권한이 필요합니다."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "새 지문 등록"
++msgid "Enroll or Delete fingerprints"
++msgstr "지문 등록 또는 삭제"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "새 지문을 등록하려면 권한이 필요합니다."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "지문을 등록하거나 삭제하려면 하려면 권한이 필요합니다."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "등록할 사용자를 선택하십시오"
++msgid "Select a user to manage fingerprints for"
++msgstr "지문을 관리 할 사용자를 선택하세요"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr "다른 사용자의 새 지문을 등록하려면 권한이 필요합니다."
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "다른 사용자를 위한 지문을 관리하려면 권한이 필요합니다."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "장치 사용 전 사용 등록되지 않았음"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "다른 사용자가 장치 사용 중"
+@@ -283,10 +283,10 @@ msgstr "손가락을 뗀 다음 인식기에 다시 문질러 보십시오"
+ msgid "Verification timed out"
+ msgstr "인증 시간 초과"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "지문과 일치하지 않습니다"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "알 수 없는 오류가 발생했습니다"
+diff --git a/po/ky.po b/po/ky.po
+index b5b949c..3f19c50 100644
+--- a/po/ky.po
++++ b/po/ky.po
+@@ -1,270 +1,283 @@
+ # SOME DESCRIPTIVE TITLE.
+ # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+ # This file is distributed under the same license as the PACKAGE package.
+-# 
++#
+ # Translators:
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2018-05-31 14:30+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2018-09-12 17:40+0000\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+-"Language-Team: Kyrgyz (http://www.transifex.com/freedesktop/fprintd/language/ky/)\n"
++"Language-Team: Kyrgyz (http://www.transifex.com/freedesktop/fprintd/language/"
++"ky/)\n"
++"Language: ky\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"Language: ky\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:1
++#: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:2
++#: data/net.reactivated.fprint.device.policy.in:14
+ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:3
+-msgid "Enroll new fingerprints"
++#: data/net.reactivated.fprint.device.policy.in:23
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:4
+-msgid "Privileges are required to enroll new fingerprints."
++#: data/net.reactivated.fprint.device.policy.in:24
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:5
+-msgid "Select a user to enroll"
++#: data/net.reactivated.fprint.device.policy.in:33
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+-#: ../data/net.reactivated.fprint.device.policy.in.h:6
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#: data/net.reactivated.fprint.device.policy.in:34
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: ../src/device.c:385
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: ../src/device.c:395
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:31
++#: pam/fingerprint-strings.h:50
+ msgid "Place your finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:32
++#: pam/fingerprint-strings.h:51
+ #, c-format
+ msgid "Place your finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:33
++#: pam/fingerprint-strings.h:52
+ msgid "Swipe your finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:34
++#: pam/fingerprint-strings.h:53
+ #, c-format
+ msgid "Swipe your finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:36
++#: pam/fingerprint-strings.h:55
+ msgid "Place your left thumb on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:37
++#: pam/fingerprint-strings.h:56
+ #, c-format
+ msgid "Place your left thumb on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:38
++#: pam/fingerprint-strings.h:57
+ msgid "Swipe your left thumb across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:39
++#: pam/fingerprint-strings.h:58
+ #, c-format
+ msgid "Swipe your left thumb across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:41
++#: pam/fingerprint-strings.h:60
+ msgid "Place your left index finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:42
++#: pam/fingerprint-strings.h:61
+ #, c-format
+ msgid "Place your left index finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:43
++#: pam/fingerprint-strings.h:62
+ msgid "Swipe your left index finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:44
++#: pam/fingerprint-strings.h:63
+ #, c-format
+ msgid "Swipe your left index finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:46
++#: pam/fingerprint-strings.h:65
+ msgid "Place your left middle finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:47
++#: pam/fingerprint-strings.h:66
+ #, c-format
+ msgid "Place your left middle finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:48
++#: pam/fingerprint-strings.h:67
+ msgid "Swipe your left middle finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:49
++#: pam/fingerprint-strings.h:68
+ #, c-format
+ msgid "Swipe your left middle finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:51
++#: pam/fingerprint-strings.h:70
+ msgid "Place your left ring finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:52
++#: pam/fingerprint-strings.h:71
+ #, c-format
+ msgid "Place your left ring finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:53
++#: pam/fingerprint-strings.h:72
+ msgid "Swipe your left ring finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:54
++#: pam/fingerprint-strings.h:73
+ #, c-format
+ msgid "Swipe your left ring finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:56
++#: pam/fingerprint-strings.h:75
+ msgid "Place your left little finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:57
++#: pam/fingerprint-strings.h:76
+ #, c-format
+ msgid "Place your left little finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:58
++#: pam/fingerprint-strings.h:77
+ msgid "Swipe your left little finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:59
++#: pam/fingerprint-strings.h:78
+ #, c-format
+ msgid "Swipe your left little finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:61
++#: pam/fingerprint-strings.h:80
+ msgid "Place your right thumb on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:62
++#: pam/fingerprint-strings.h:81
+ #, c-format
+ msgid "Place your right thumb on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:63
++#: pam/fingerprint-strings.h:82
+ msgid "Swipe your right thumb across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:64
++#: pam/fingerprint-strings.h:83
+ #, c-format
+ msgid "Swipe your right thumb across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:66
++#: pam/fingerprint-strings.h:85
+ msgid "Place your right index finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:67
++#: pam/fingerprint-strings.h:86
+ #, c-format
+ msgid "Place your right index finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:68
++#: pam/fingerprint-strings.h:87
+ msgid "Swipe your right index finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:69
++#: pam/fingerprint-strings.h:88
+ #, c-format
+ msgid "Swipe your right index finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:71
++#: pam/fingerprint-strings.h:90
+ msgid "Place your right middle finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:72
++#: pam/fingerprint-strings.h:91
+ #, c-format
+ msgid "Place your right middle finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:73
++#: pam/fingerprint-strings.h:92
+ msgid "Swipe your right middle finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:74
++#: pam/fingerprint-strings.h:93
+ #, c-format
+ msgid "Swipe your right middle finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:76
++#: pam/fingerprint-strings.h:95
+ msgid "Place your right ring finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:77
++#: pam/fingerprint-strings.h:96
+ #, c-format
+ msgid "Place your right ring finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:78
++#: pam/fingerprint-strings.h:97
+ msgid "Swipe your right ring finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:79
++#: pam/fingerprint-strings.h:98
+ #, c-format
+ msgid "Swipe your right ring finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:81
++#: pam/fingerprint-strings.h:100
+ msgid "Place your right little finger on the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:82
++#: pam/fingerprint-strings.h:101
+ #, c-format
+ msgid "Place your right little finger on %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:83
++#: pam/fingerprint-strings.h:102
+ msgid "Swipe your right little finger across the fingerprint reader"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:84
++#: pam/fingerprint-strings.h:103
+ #, c-format
+ msgid "Swipe your right little finger across %s"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:131 ../pam/fingerprint-strings.h:157
++#: pam/fingerprint-strings.h:171 pam/fingerprint-strings.h:199
+ msgid "Place your finger on the reader again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:133 ../pam/fingerprint-strings.h:159
++#: pam/fingerprint-strings.h:173 pam/fingerprint-strings.h:201
+ msgid "Swipe your finger again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:136 ../pam/fingerprint-strings.h:162
++#: pam/fingerprint-strings.h:176 pam/fingerprint-strings.h:204
+ msgid "Swipe was too short, try again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:138 ../pam/fingerprint-strings.h:164
++#: pam/fingerprint-strings.h:178 pam/fingerprint-strings.h:206
+ msgid "Your finger was not centered, try swiping your finger again"
+ msgstr ""
+ 
+-#: ../pam/fingerprint-strings.h:140 ../pam/fingerprint-strings.h:166
++#: pam/fingerprint-strings.h:180 pam/fingerprint-strings.h:208
+ msgid "Remove your finger, and try swiping your finger again"
+ msgstr ""
++
++#: pam/pam_fprintd.c:537
++msgid "Verification timed out"
++msgstr ""
++
++#: pam/pam_fprintd.c:542
++msgid "Failed to match fingerprint"
++msgstr ""
++
++#: pam/pam_fprintd.c:580
++msgid "An unknown error occurred"
++msgstr ""
+diff --git a/po/lt.po b/po/lt.po
+index 5673e2f..fb54df4 100644
+--- a/po/lt.po
++++ b/po/lt.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Lithuanian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,27 +29,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -276,10 +276,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/lv.po b/po/lv.po
+index 1375d69..e6bf96a 100644
+--- a/po/lv.po
++++ b/po/lv.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 10:32+0000\n"
+ "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+ "Language-Team: Latvian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -30,30 +30,34 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Ir nepieciešamas privilēģijas, lai pārbaudītu pirkstu nospiedumus."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Reģistrēt jaunus pirkstu nospiedumus"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ "Ir nepieciešamas privilēģijas, lai reģistrētu jaunus pirkstu nospiedumus."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Izvēlieties lietotāju, kuram reģistrēt"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Ir nepieciešamas privilēģijas, lai reģistrētu citu lietotāju pirkstu "
+ "nospiedumus."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Ierīce nav norādīta pirms lietošanas"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Ierīci jau lieto cits lietotājs"
+@@ -280,11 +284,11 @@ msgstr "Noņemt pirkstu un mēģiniet vilkt pirkstu vēlreiz"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Pārbaudīt pirkstu nospiedumu"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ml.po b/po/ml.po
+index 59806a1..14b298d 100644
+--- a/po/ml.po
++++ b/po/ml.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Malayalam (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/mr.po b/po/mr.po
+index cc07209..419ee88 100644
+--- a/po/mr.po
++++ b/po/mr.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-08-29 17:04+0000\n"
+ "Last-Translator: girish joshi <girish946@gmail.com>\n"
+ "Language-Team: Marathi <https://translate.fedoraproject.org/projects/fprintd/"
+@@ -29,29 +29,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "फिंगरप्रिंट सत्यापित करण्यासाठी विशेषाधिकार आवश्यक आहेत."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "नवीन फिंगरप्रिंट्स नोंदवा"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "फिंगरप्रिंट सत्यापित करण्यासाठी विशेषाधिकार आवश्यक आहेत."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "नोंदणी करण्यासाठी वापरकर्ता निवडा"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr ""
+-"इतर वापरकर्त्यांसाठी नवीन फिंगरप्रिंट्स नोंदणी करण्यासाठी विशेषाधिकार आवश्यक "
+-"आहेत."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "इतर वापरकर्त्यांसाठी नवीन फिंगरप्रिंट्स नोंदणी करण्यासाठी विशेषाधिकार आवश्यक आहेत."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "डिव्हाइस वापरण्यापूर्वी दावा केला नाही"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "डिव्हाइस आधीपासून दुसर्या वापरकर्त्याद्वारे वापरात आहे"
+@@ -268,22 +270,20 @@ msgstr "स्वाइप खूप लहान होते, पुन्ह
+ 
+ #: pam/fingerprint-strings.h:178 pam/fingerprint-strings.h:206
+ msgid "Your finger was not centered, try swiping your finger again"
+-msgstr ""
+-"आपली बोट केंद्रीत नव्हती, पुन्हा आपल्या बोटाने स्वाइप करण्याचा प्रयत्न करा"
++msgstr "आपली बोट केंद्रीत नव्हती, पुन्हा आपल्या बोटाने स्वाइप करण्याचा प्रयत्न करा"
+ 
+ #: pam/fingerprint-strings.h:180 pam/fingerprint-strings.h:208
+ msgid "Remove your finger, and try swiping your finger again"
+-msgstr ""
+-"आपली बोट काढून टाका आणि पुन्हा आपल्या बोटाने स्वाइप करण्याचा प्रयत्न करा"
++msgstr "आपली बोट काढून टाका आणि पुन्हा आपल्या बोटाने स्वाइप करण्याचा प्रयत्न करा"
+ 
+ #: pam/pam_fprintd.c:537
+ msgid "Verification timed out"
+ msgstr "सत्यापन कालबाह्य झाले"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "फिंगरप्रिंटशी जुळण्यासाठी अयशस्वी"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "एक अज्ञात त्रुटी आली"
+diff --git a/po/ms.po b/po/ms.po
+index 4582752..384f25a 100644
+--- a/po/ms.po
++++ b/po/ms.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Malay (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/nb.po b/po/nb.po
+index 59ae365..1d05c27 100644
+--- a/po/nb.po
++++ b/po/nb.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Norwegian Bokmål (http://www.transifex.com/freedesktop/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/nl.po b/po/nl.po
+index d54896b..e0a180e 100644
+--- a/po/nl.po
++++ b/po/nl.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 10:52+0000\n"
+ "Last-Translator: Richard E. van der Luit <nippur@fedoraproject.org>\n"
+ "Language-Team: Dutch (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -28,29 +28,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "U hebt rechten nodig om vingerafdrukken te verifiëren"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Meldt nieuwe vingerafdrukken aan"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "U hebt rechten nodig om nieuwe vingerafdrukken aan te melden"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selecteer een gebruiker om aan te melden"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "U hebt rechten nodig om nieuwe vingerafdrukken van andere gebruikers aan te "
+ "melden"
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Apparaat was niet geclaimd voor gebruik"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Apparaat wordt reeds door een andere gebruiker gebruikt"
+@@ -279,11 +283,11 @@ msgstr "Haal uw vinger weer weg en probeer nogmaals met die vinger te vegen"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verifieer een vingerafdruk"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/nn.po b/po/nn.po
+index 8f4950c..3745534 100644
+--- a/po/nn.po
++++ b/po/nn.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Norwegian Nynorsk (http://www.transifex.com/freedesktop/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/oc.po b/po/oc.po
+index ded129d..364a73f 100644
+--- a/po/oc.po
++++ b/po/oc.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-23 20:04+0000\n"
+ "Last-Translator: Cédric Valmary <cvalmary@yahoo.fr>\n"
+ "Language-Team: Occitan (post 1500) (http://www.transifex.com/freedesktop/"
+@@ -28,31 +28,35 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "De permissions son necessaris per contrarotlar d'emprenchas digitalas."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Introduire d'emprenchas novèlas"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ "De permissions son necessàrias per introduire de novèlas emprenchas "
+ "digitalas."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Causir un utilizaire per l'introduccion"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "De permissions son necessàrias per introduire de novèlas emprenchas "
+ "digitalas per d'autres utilizaires."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Lo periferic es pas estat reservat abans utilizacion"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Lo periferic es ja utilizat per un autre utilizaire"
+@@ -279,11 +283,11 @@ msgstr "Levatz vòstre det del lector e ensajatz de lo lisar un còp de mai"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verificra una emprencha digitala"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/or.po b/po/or.po
+index 1ef2977..2b74c59 100644
+--- a/po/or.po
++++ b/po/or.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Oriya (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/pa.po b/po/pa.po
+index 10c7f66..a1eeddf 100644
+--- a/po/pa.po
++++ b/po/pa.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:46+0000\n"
+ "Last-Translator: A S Alam <alam.yellow@gmail.com>\n"
+ "Language-Team: Panjabi (Punjabi) (http://www.transifex.com/freedesktop/"
+@@ -28,27 +28,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "ਉਂਗਲ-ਨਿਸ਼ਾਨ ਜਾਂਚ ਕਰਨ ਲਈ ਅਧਿਕਾਰਾਂ ਦੀ ਲੋੜ ਹੈ।"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "ਨਵੇਂ ਉਂਗਲ-ਨਿਸ਼ਾਨ ਲਵੋ"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "ਨਵੇਂ ਉਂਗਲ-ਨਿਸ਼ਾਨ ਲੈਣ ਲਈ ਅਧਿਕਾਰਾਂ ਦੀ ਲੋੜ ਹੈ।"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "ਚਾਲੂ ਕਰਨ ਲਈ ਯੂਜ਼ਰ ਚੁਣੋ"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "ਹੋਰ ਯੂਜ਼ਰ ਲਈ ਨਵੇਂ ਉਂਗਲ-ਨਿਸ਼ਾਨ ਲੈਣ ਲਈ ਅਧਿਕਾਰਾਂ ਦੀ ਲੋੜ ਹੈ।"
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "ਜੰਤਰ ਪਹਿਲਾਂ ਕਦੇ ਵਰਤਿਆ ਨਹੀਂ ਗਿਆ ਸੀ"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "ਜੰਤਰ ਕਿਸੇ ਹੋਰ ਯੂਜ਼ਰ ਵਲੋਂ ਪਹਿਲਾਂ ਹੀ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
+@@ -275,11 +279,11 @@ msgstr "ਆਪਣੀ ਉਂਗਲ ਘਸਾਉ ਅਤੇ ਫੇਰ ਆਪਣੀ
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "ਉਂਗਲ-ਨਿਸ਼ਾਨ ਦੀ ਜਾਂਚ"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/pl.po b/po/pl.po
+index 60dd4ee..2219488 100644
+--- a/po/pl.po
++++ b/po/pl.po
+@@ -8,8 +8,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-24 11:08+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 14:50+0000\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+ "Language-Team: Polish <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/pl/>\n"
+@@ -20,7 +20,7 @@ msgstr ""
+ "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+ "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+ "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+-"X-Generator: Weblate 4.7.2\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -31,29 +31,29 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Wymagane są uprawnienia, aby zweryfikować odciski palców."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Pobieranie odcisków palców"
++msgid "Enroll or Delete fingerprints"
++msgstr "Pobieranie lub usuwanie odcisków palców"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Wymagane są uprawnienia, aby pobrać nowe odciski palców."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "Wymagane są uprawnienia, aby pobrać lub usunąć odciski palców."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Wybór użytkownika do pobrania"
++msgid "Select a user to manage fingerprints for"
++msgstr "Wybór użytkownika, dla którego zarządzać odciskami palców"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"Wymagane są uprawnienia, aby pobrać nowe odciski palców dla innych "
++"Wymagane są uprawnienia, aby zarządzać odciskami palców dla innych "
+ "użytkowników."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Urządzenie nie zostało zajęte przed użyciem"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Urządzenie jest już używane przez innego użytkownika"
+@@ -281,10 +281,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr "Weryfikacja przekroczyła czas oczekiwania"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Dopasowanie odcisku palca się nie powiodło"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Wystąpił nieznany błąd"
+diff --git a/po/pt.po b/po/pt.po
+index 4def176..886acc9 100644
+--- a/po/pt.po
++++ b/po/pt.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 21:51+0000\n"
+ "Last-Translator: Pedro Albuquerque <pmra@gmx.com>\n"
+ "Language-Team: Portuguese (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,29 +28,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "São necessários privilégios para verificar impressões digitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Inscrever novas impressões digitais"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "São necessários privilégios para inscrever novas impressões digitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selecione um utilizador para inscrever"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "São necessários privilégios para inscrever novas impressões digitais para "
+ "outros utilizadores."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "O dispositivo não foi reclamado antes de usar"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "O dispositivo já está em uso por outro utilizador"
+@@ -277,11 +281,11 @@ msgstr "Retire o dedo e tente deslizar novamente"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verificar uma impressão digital"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/pt_BR.po b/po/pt_BR.po
+index bf9b267..1201ade 100644
+--- a/po/pt_BR.po
++++ b/po/pt_BR.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-07-16 20:04+0000\n"
+ "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+ "Language-Team: Portuguese (Brazil) <https://translate.fedoraproject.org/"
+@@ -30,29 +30,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Privilégios são necessários para verificar impressões digitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Inscrever novas impressões digitais"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Privilégios são necessários para inscrever novas impressões digitais."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Selecione um usuário para inscrever"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Privilégios são necessários para inscrever novas impressões digitais para "
+ "outros usuários."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Dispositivo não foi requerido antes de usar"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Dispositivo já em uso por outro usuário"
+@@ -279,10 +283,10 @@ msgstr "Remova seu dedo e tente pressioná-lo novamente"
+ msgid "Verification timed out"
+ msgstr "Verificação expirou"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Falha ao corresponder a impressão digital"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Ocorreu um erro desconhecido"
+diff --git a/po/ro.po b/po/ro.po
+index 7e3aea1..73fc0d0 100644
+--- a/po/ro.po
++++ b/po/ro.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2021-05-18 18:31+0000\n"
+ "Last-Translator: Daniel Șerbănescu <daniel@serbanescu.dk>\n"
+ "Language-Team: Romanian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,29 +28,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Sunt necesare privilegii pentru a verifica amprentele."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Înscrie amprente noi"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Sunt necesare privilegii pentru a înscrie amprente noi."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Alegeți un utilizator de înscris"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Sunt necesare privilegii pentru a înscrie amprente noi pentru alți "
+ "utilizatori."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Dispozitivul nu a fost solicitat înainte de utilizare"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Dispozitivul este deja utilizat de un alt utilizator"
+@@ -283,11 +287,11 @@ msgstr "Luați degetul și mai încercați să-l treceți o dată"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Verifică o amprentă"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/ru.po b/po/ru.po
+index 7058e70..5e1d8c6 100644
+--- a/po/ru.po
++++ b/po/ru.po
+@@ -4,15 +4,16 @@
+ #
+ # Translators:
+ # Yuri Kozlov <yuray@komyakino.ru>, 2011, 2012
++# D P <dpokrasko@gmail.com>, 2021.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2017-09-19 09:46+0000\n"
+-"Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
+-"Language-Team: Russian (http://www.transifex.com/freedesktop/fprintd/"
+-"language/ru/)\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-08 12:16+0000\n"
++"Last-Translator: D P <dpokrasko@gmail.com>\n"
++"Language-Team: Russian <https://translate.fedoraproject.org/projects/fprintd/"
++"fprintd/ru/>\n"
+ "Language: ru\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+@@ -20,6 +21,7 @@ msgstr ""
+ "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+ "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+ "%100>=11 && n%100<=14)? 2 : 3);\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -30,28 +32,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Для проверки отпечатков пальцев требуются права доступа."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Ввод новых отпечатков пальцев"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Для ввода отпечатков пальцев требуются права доступа."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Выбор пользователя для ввода отпечатков пальцев"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Для ввода отпечатков пальцев других пользователей требуются права доступа."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Устройство не затребовано перед использованием"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Устройство уже используется другим пользователем"
+@@ -103,7 +109,7 @@ msgstr "Положите указательный палец левой руки
+ 
+ #: pam/fingerprint-strings.h:62
+ msgid "Swipe your left index finger across the fingerprint reader"
+-msgstr "Проведите указанным пальцем левой руки по считывающему устройству"
++msgstr "Проведите указательным пальцем левой руки по считывающему устройству"
+ 
+ #: pam/fingerprint-strings.h:63
+ #, c-format
+@@ -193,7 +199,7 @@ msgstr "Положите указательный палец правой рук
+ 
+ #: pam/fingerprint-strings.h:87
+ msgid "Swipe your right index finger across the fingerprint reader"
+-msgstr "Проведите указанным пальцем правой руки по считывающему устройству"
++msgstr "Проведите указательным пальцем правой руки по считывающему устройству"
+ 
+ #: pam/fingerprint-strings.h:88
+ #, c-format
+@@ -278,11 +284,11 @@ msgstr "Уберите палец и попробуйте провести ещ
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Проверка отпечатков пальцев"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sk.po b/po/sk.po
+index 0c85f88..84c9af8 100644
+--- a/po/sk.po
++++ b/po/sk.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:37+0000\n"
+ "Last-Translator: 72ddcfb667df43addd890f6004308e97_99b88e0 "
+ "<961ea3558d69b32d01a4fee2062c1356_7098>\n"
+@@ -31,29 +31,33 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Na overenie odtlačkov prstov sú potrebné oprávnenia."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Zaregistrovať nové odtlačky prstov"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Na registrovanie nových odtlačkov prstov sú potrebné oprávnenia."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Zvoliť používateľa na registráciu"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Na registrovanie nových odtlačkov prstov pre iných používateľov sú potrebné "
+ "oprávnenia."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Zariadenie nebolo pred použitím vyžiadané"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Zariadenia je už používané iným používateľom"
+@@ -280,11 +284,11 @@ msgstr "Zodvihnite svoj prst a skúste ním prejsť znova"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Overiť odtlačok prsta"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sl.po b/po/sl.po
+index 55b62f6..575f22d 100644
+--- a/po/sl.po
++++ b/po/sl.po
+@@ -9,7 +9,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:08+0000\n"
+ "Last-Translator: Matej Urbančič <>\n"
+ "Language-Team: Slovenian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -30,28 +30,32 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Za overjanje prstnih odtisov so zahtevana skrbniška dovoljenja."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Vpis novih prstnih odtisov"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Za vpis novih prstnih odtisov so zahtevana skrbniška dovoljenja."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Izbor uporabnika za vpis prstnega odtisa"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ "Za vpis prstnih odtisov drugih uporabnikov so zahtevana skrbniška dovoljenja."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Naprava je prevzeta pred uporabo"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Napravo uporablja drug uporabnik"
+@@ -280,11 +284,11 @@ msgstr "Dvignite prst in poskusite znova povleči prst preko bralnika."
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Overjanje prstnega odtisa"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sq.po b/po/sq.po
+index 805a454..2e0c7c6 100644
+--- a/po/sq.po
++++ b/po/sq.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Albanian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sr.po b/po/sr.po
+index a1a1433..536ab5b 100644
+--- a/po/sr.po
++++ b/po/sr.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:08+0000\n"
+ "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+ "Language-Team: Serbian (http://www.transifex.com/freedesktop/fprintd/"
+@@ -29,27 +29,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Потребна су овлашћења за проверу отисака прстију."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "Направи нове отиске прстију"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "Потребна су овлашћења за стварање нових отисака прстију."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "Изабери корисника за давање отисака"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "Потребна су овлашћења за учитавање отисака прстију за друге кориснике."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Уређај није позван пре коришћења"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Неки други корисник користи овај уређај"
+@@ -276,11 +280,11 @@ msgstr "Склоните прст и покушајте поново да га 
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "Провери отисак прста"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sr@latin.po b/po/sr@latin.po
+index d83ea46..0aa4eba 100644
+--- a/po/sr@latin.po
++++ b/po/sr@latin.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Serbian (Latin) (http://www.transifex.com/freedesktop/fprintd/"
+@@ -28,27 +28,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -275,10 +275,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/sv.po b/po/sv.po
+index ae9b9df..2138c8e 100644
+--- a/po/sv.po
++++ b/po/sv.po
+@@ -4,13 +4,14 @@
+ #
+ # Translators:
+ # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021.
++# Luna Jernberg <bittin@reimu.nl>, 2021.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-16 20:04+0000\n"
+-"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-06 12:16+0000\n"
++"Last-Translator: Luna Jernberg <bittin@reimu.nl>\n"
+ "Language-Team: Swedish <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/sv/>\n"
+ "Language: sv\n"
+@@ -18,7 +19,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Weblate 4.7.1\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -29,28 +30,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Privilegier krävs för att verifiera fingeravtryck."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Registrera nya fingeravtryck"
++msgid "Enroll or Delete fingerprints"
++msgstr "Registrera eller ta bort fingeravtryck"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Privilegier krävs för att registrera nya fingeravtryck."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "Privilegier krävs för att registrera eller ta bort fingeravtryck."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Välj användare att registrera"
++msgid "Select a user to manage fingerprints for"
++msgstr "Välj användare att hantera fingeravtryck för"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
+-msgstr ""
+-"Privilegier krävs för att registrera nya fingeravtryck för andra användare."
++msgid "Privileges are required to manage fingerprints for other users."
++msgstr "Privilegier krävs för att hantera fingeravtryck för andra användare."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Enheten har inte tagits över innan användning"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Enheten används redan av en annan användare"
+@@ -277,10 +277,10 @@ msgstr "Ta bort ditt finger och prova att dra ditt finger igen"
+ msgid "Verification timed out"
+ msgstr "Tidsgräns för verifiering överskreds"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Misslyckades med att matcha fingeravtryck"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Ett okänt fel inträffade"
+diff --git a/po/ta.po b/po/ta.po
+index 14ecd2a..2b35b2d 100644
+--- a/po/ta.po
++++ b/po/ta.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Tamil (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/te.po b/po/te.po
+index 7b2fbf0..8446bba 100644
+--- a/po/te.po
++++ b/po/te.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Telugu (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/th.po b/po/th.po
+index 33b776f..be4b0b7 100644
+--- a/po/th.po
++++ b/po/th.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Thai (http://www.transifex.com/freedesktop/fprintd/language/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/tr.po b/po/tr.po
+index 2606c1b..454a67f 100644
+--- a/po/tr.po
++++ b/po/tr.po
+@@ -10,8 +10,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-16 20:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
+ "Language-Team: Turkish <https://translate.fedoraproject.org/projects/fprintd/"
+ "fprintd/tr/>\n"
+@@ -20,7 +20,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n>1);\n"
+-"X-Generator: Weblate 4.7.1\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -31,28 +31,28 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Parmak izini doğrulamak için ayrıcalıklar gerekiyor."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Yeni parmak izlerini kaydet"
++msgid "Enroll or Delete fingerprints"
++msgstr "Parmak izlerini kaydet veya sil"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Yeni parmak izleri kaydetmek için ayrıcalıklar gerekiyor."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr "Parmak izlerini kaydetmek veya silmek için ayrıcalıklar gerekiyor."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Kaydetmesi için kullanıcı seçin"
++msgid "Select a user to manage fingerprints for"
++msgstr "Parmak izlerini yönetmek için bir kullanıcı seçin"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"Diğer kullanıcılara yeni parmak izleri kaydetmek için ayrıcalıklar gerekiyor."
++"Diğer kullanıcılar için parmak izlerini yönetmek için ayrıcalıklar gerekiyor."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Aygıt kullanımdan önce istenmedi"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Aygıt başka kullanıcı tarafından kullanılıyor"
+@@ -279,10 +279,10 @@ msgstr "Parmağınızı kaldırın ve yeniden kaydırmayı deneyin"
+ msgid "Verification timed out"
+ msgstr "Doğrulama zaman aşımına uğradı"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Parmak izi eşleştirilemedi"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Bilinmeyen bir hata oluştu"
+diff --git a/po/uk.po b/po/uk.po
+index 042d49d..3895f94 100644
+--- a/po/uk.po
++++ b/po/uk.po
+@@ -9,8 +9,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
+-"PO-Revision-Date: 2021-07-16 20:04+0000\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
++"PO-Revision-Date: 2021-12-04 09:16+0000\n"
+ "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+ "Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/"
+ "fprintd/fprintd/uk/>\n"
+@@ -22,7 +22,7 @@ msgstr ""
+ "? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > "
+ "14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % "
+ "100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+-"X-Generator: Weblate 4.7.1\n"
++"X-Generator: Weblate 4.9.1\n"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:13
+ msgid "Verify a fingerprint"
+@@ -33,29 +33,30 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "Для перевірки відбитків пальців потрібні відповідні права доступу."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
+-msgstr "Реєстрація нових відбитків пальців"
++msgid "Enroll or Delete fingerprints"
++msgstr "Реєстрація або вилучення відбитків"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
+-msgstr "Для реєстрації нових відбитків потрібні відповідні права доступу."
++msgid "Privileges are required to enroll or delete fingerprints."
++msgstr ""
++"Для реєстрації або вилучення відбитків потрібні відповідні права доступу."
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
+-msgstr "Виберіть користувача для реєстрації"
++msgid "Select a user to manage fingerprints for"
++msgstr "Виберіть користувача для керування відбитками"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+-"Для реєстрації нових відбитків для інших користувачів потрібні відповідні "
+-"права доступу."
++"Для керування відбитками для інших користувачів потрібні відповідні права "
++"доступу."
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "Перед використанням пристрій не було зарезервовано"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "Пристрій вже використовується іншим користувачем"
+@@ -286,10 +287,10 @@ msgstr "Приберіть ваш палець і повторіть спроб
+ msgid "Verification timed out"
+ msgstr "Перевищено час перевірки"
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr "Не вдалося встановити відповідність відбитка"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr "Сталася невідома помилка"
+diff --git a/po/vi.po b/po/vi.po
+index 90891a2..246ff33 100644
+--- a/po/vi.po
++++ b/po/vi.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Vietnamese (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/wa.po b/po/wa.po
+index 428774d..be12322 100644
+--- a/po/wa.po
++++ b/po/wa.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-08-03 17:23+0000\n"
+ "Last-Translator: hadess <hadess@hadess.net>\n"
+ "Language-Team: Walloon (http://www.transifex.com/freedesktop/fprintd/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/zh_CN.po b/po/zh_CN.po
+index ce1bbc5..b9cc5b3 100644
+--- a/po/zh_CN.po
++++ b/po/zh_CN.po
+@@ -10,7 +10,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:46+0000\n"
+ "Last-Translator: Mingye Wang <arthur200126@gmail.com>\n"
+ "Language-Team: Chinese (China) (http://www.transifex.com/freedesktop/fprintd/"
+@@ -30,27 +30,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "验证指纹需要更高的权限。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "登记新的指纹"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "需要更高的权限来登记新指纹。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "选择要登记的用户"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "需要更高的权限来为其他用户登记指纹。"
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "设备使用前没有声明"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "设备正由另一用户使用"
+@@ -277,11 +281,11 @@ msgstr "移开您的手指，并重新试着摁下"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "验证指纹"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/zh_HK.po b/po/zh_HK.po
+index c5b3e6c..9148225 100644
+--- a/po/zh_HK.po
++++ b/po/zh_HK.po
+@@ -7,7 +7,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2010-11-30 07:44+0000\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/freedesktop/"
+@@ -27,27 +27,27 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++msgid "Enroll or Delete fingerprints"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++msgid "Select a user to manage fingerprints for"
+ msgstr ""
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr ""
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr ""
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr ""
+@@ -274,10 +274,10 @@ msgstr ""
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ msgid "Failed to match fingerprint"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/po/zh_TW.po b/po/zh_TW.po
+index 7ffc6a7..22dcb1a 100644
+--- a/po/zh_TW.po
++++ b/po/zh_TW.po
+@@ -8,7 +8,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: fprintd\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2021-06-30 14:00+0200\n"
++"POT-Creation-Date: 2021-12-02 10:58+0100\n"
+ "PO-Revision-Date: 2017-09-19 09:08+0000\n"
+ "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+ "Language-Team: Chinese (Taiwan) (http://www.transifex.com/freedesktop/"
+@@ -28,27 +28,31 @@ msgid "Privileges are required to verify fingerprints."
+ msgstr "需要有特權才能驗證指紋。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:23
+-msgid "Enroll new fingerprints"
++#, fuzzy
++msgid "Enroll or Delete fingerprints"
+ msgstr "登記新指紋"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:24
+-msgid "Privileges are required to enroll new fingerprints."
++#, fuzzy
++msgid "Privileges are required to enroll or delete fingerprints."
+ msgstr "需要有特權才能登記新指紋。"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:33
+-msgid "Select a user to enroll"
++#, fuzzy
++msgid "Select a user to manage fingerprints for"
+ msgstr "選取使用者以登記"
+ 
+ #: data/net.reactivated.fprint.device.policy.in:34
+-msgid "Privileges are required to enroll new fingerprints for other users."
++#, fuzzy
++msgid "Privileges are required to manage fingerprints for other users."
+ msgstr "需要有特權才能為其他使用者登記新指紋。"
+ 
+-#: src/device.c:690
++#: src/device.c:783
+ #, c-format
+ msgid "Device was not claimed before use"
+ msgstr "在使用前裝置未提出要求"
+ 
+-#: src/device.c:699
++#: src/device.c:792
+ #, c-format
+ msgid "Device already in use by another user"
+ msgstr "裝置正被其他使用者使用"
+@@ -275,11 +279,11 @@ msgstr "請移開您的手指，並再次嘗試抹過您的手指"
+ msgid "Verification timed out"
+ msgstr ""
+ 
+-#: pam/pam_fprintd.c:560
++#: pam/pam_fprintd.c:542
+ #, fuzzy
+ msgid "Failed to match fingerprint"
+ msgstr "驗證指紋"
+ 
+-#: pam/pam_fprintd.c:576
++#: pam/pam_fprintd.c:580
+ msgid "An unknown error occurred"
+ msgstr ""
+diff --git a/src/meson.build b/src/meson.build
+index 1df6216..a7ce3fe 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -1,22 +1,14 @@
+ bash = find_program('bash')
+-dbus_interfaces = ['Manager', 'Device']
+-dbus_interfaces_files = []
++dbus_interfaces = files(
++    'net.reactivated.Fprint.Manager.xml',
++    'net.reactivated.Fprint.Device.xml',
++)
+ 
+-foreach interface_name: dbus_interfaces
+-    interface = interface_name.to_lower()
+-    interface_file = interface + '.xml'
+-    dbus_interfaces_files += custom_target('dbus_interface_' + interface,
+-        input: interface_file,
+-        output: 'net.reactivated.Fprint.@0@.xml'.format(interface_name),
+-        command: ['cp', '@INPUT@', '@OUTPUT@'],
+-        install: true,
+-        install_dir: dbus_interfaces_dir,
+-    )
+-endforeach
++install_data(dbus_interfaces, install_dir: dbus_interfaces_dir)
+ 
+ # NOTE: We should pass "--glib-min-required 2.64" but cannot
+ fprintd_dbus_sources_base = gnome.gdbus_codegen('fprintd-dbus',
+-    sources: dbus_interfaces_files,
++    sources: dbus_interfaces,
+     autocleanup: 'all',
+     interface_prefix: 'net.reactivated.Fprint.',
+     namespace: 'FprintDBus',
+diff --git a/src/device.xml b/src/net.reactivated.Fprint.Device.xml
+similarity index 100%
+rename from src/device.xml
+rename to src/net.reactivated.Fprint.Device.xml
+diff --git a/src/manager.xml b/src/net.reactivated.Fprint.Manager.xml
+similarity index 100%
+rename from src/manager.xml
+rename to src/net.reactivated.Fprint.Manager.xml
