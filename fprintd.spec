@@ -1,29 +1,27 @@
 %bcond_without doc
 
-Name:       fprintd
-Version:	1.94.1
-Release:	2
 Summary:    D-Bus service for Fingerprint reader access
-
+Name:       fprintd
+Version:	1.94.2
+Release:	1
 Group:      System/Kernel and hardware
 License:    GPLv2+
-Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-v%{version}.tar.gz
+Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/%{name}-v%{version}.tar.bz2
 Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
-Patch0:	    fix-build-and-translations.patch
-
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(gio-2.0) >= 2.26
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(libfprint-2) > 0.1.0
 BuildRequires:	pkgconfig(polkit-gobject-1) >= 0.91
-BuildRequires:  pkgconfig(udev)
-BuildRequires:  pkgconfig(systemd)
+BuildRequires:  pkgconfig(libsystemd)
+BuildRequires:  meson
 BuildRequires:  pam-devel
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(pam_wrapper)
 BuildRequires:	python-dbusmock
 BuildRequires:	python-libpamtest
+BuildRequires:	python-cairo
 %if %{with doc}
 BuildRequires:  gtk-doc
 %endif
@@ -43,18 +41,17 @@ D-Bus service to access fingerprint readers.
 %{_datadir}/dbus-1/services/net.reactivated.Fprint.service
 %{_datadir}/polkit-1/actions/net.reactivated.fprint.device.policy
 %{_localstatedir}/lib/fprint
-%_mandir/man1/fprintd.*
+%doc %{_mandir}/man1/fprintd.*
 
 #--------------------------------------------------------------------
 
-%package    pam
+%package pam
 Summary:    PAM module for fingerprint authentication
 Requires:   %{name} = %{version}-%{release}
 # Note that we obsolete pam_fprint, but as the configuration
 # is different, it will be mentioned in the release notes
 Provides:   pam_fprint = %{version}-%{release}
 Obsoletes:  pam_fprint < 0.2-5
-
 Group:      System/Kernel and hardware
 License:    GPLv2+
 
@@ -64,17 +61,16 @@ authentication.
 
 %files pam
 %doc pam/README
-%{_mandir}/man8/pam_fprintd.8.*
-/%{_lib}/pam_fprintd.so
+%doc %{_mandir}/man8/pam_fprintd.8.*
+%{_libdir}/security/pam_fprintd.so
 
 #--------------------------------------------------------------------
 
 %package devel
 Summary:    Development files for %{name}
 Requires:   %{name} = %{version}-%{release}
-Requires:   gtk-doc
 Group:      Development/Other
-License:    GFDLv1.1+
+BuildArch:	noarch
 
 %description devel
 Development documentation for fprintd, the D-Bus service for
@@ -98,18 +94,19 @@ fingerprint readers access.
 %endif
 
 %build
-%meson 	-Ddbus_service_dir="%{_datadir}/dbus-1/services" \
+%meson 	\
+		-Ddbus_service_dir="%{_datadir}/dbus-1/services" \
 %if %{with doc}
         -Dgtk_doc=true \
 %endif
-        -Dpam_modules_dir="/%{_lib}/"
+         -Dpam=true \
+		 -Dpam_modules_dir=%{_libdir}/security
 
 %meson_build
  
-
 %install
 %meson_install
 mkdir -p %{buildroot}/%{_localstatedir}/lib/fprint
 
-rm -f %{buildroot}/%{_lib}/security/pam_fprintd.{a,la,so.*}
+rm -f %{buildroot}/%{_libdir}/security/pam_fprintd.{a,la,so.*}
 %find_lang %name
