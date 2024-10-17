@@ -7,7 +7,7 @@ Release:	2
 Group:      System/Kernel and hardware
 License:    GPLv2+
 Source0:    https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/%{name}-v%{version}.tar.bz2
-Url:        http://www.freedesktop.org/wiki/Software/fprint/fprintd
+Url:        https://www.freedesktop.org/wiki/Software/fprint/fprintd
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(gio-2.0) >= 2.26
 BuildRequires:	pkgconfig(glib-2.0)
